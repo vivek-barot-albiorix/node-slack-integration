@@ -1,0 +1,2 @@
+# node-slack-integration
+Purpose:
