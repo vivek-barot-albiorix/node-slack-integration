@@ -8,15 +8,15 @@
     "host": "",
     "basePath": "/api",
     "tags": [{
-        "name": "node-slack-integration",
+        "name": "Node-slack-integration",
         "description": "Node Typescript Boilerplate"
     }],
     "schemes": ["http", "https"],
     "paths": {
-        "/status/test": {
+        "/slack/send-message": {
             "get": {
-                "tags": ["node-slack-integration"],
-                "summary": "testinggg",
+                "tags": ["Node-slack-integration"],
+                "summary": "This will send a message to specific channel",
                 "description": "",
                 "responses": {
                     "200": {
