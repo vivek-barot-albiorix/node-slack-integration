@@ -4,9 +4,7 @@ import express from "express";
 import helmet from "helmet";
 import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "../swagger.json";
-import addErrorHandler from "./middleware/error-handler";
 import registerRoutes from "./routes";
-import Environment from "./environments/environment";
 
 export default class App {
   public express: express.Application;
@@ -22,9 +20,6 @@ export default class App {
 
     // // register the all routes
     this.routes();
-
-    // add the middleware to handle error, make sure to add if after registering routes method
-    this.express.use(addErrorHandler);
 
     this.setupSwaggerDocs();
   }

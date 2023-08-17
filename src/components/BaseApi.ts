@@ -22,12 +22,7 @@ export default abstract class BaseApi {
 	public send(res: Response, statusCode: number = StatusCodes.OK): void {
 		let obj = {};
 		obj = res.locals.data;
-		if (
-			environment.isProductionEnvironment() ||
-			environment.isTestEnvironment()
-		) {
-			logger.info(JSON.stringify(obj, null, 2));
-		}
+		logger.info(JSON.stringify(obj, null, 2));
 		res.status(statusCode).send(obj);
 	}
 }

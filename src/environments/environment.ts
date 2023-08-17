@@ -38,15 +38,6 @@ class Environment implements IEnvironment {
 		this.env = env || Environments.LOCAL;
 		const rootdir: string = path.resolve(__dirname, '../../');
 		switch (env) {
-			case Environments.PRODUCTION:
-				envPath = path.resolve(rootdir, EnvironmentFile.PRODUCTION);
-				break;
-			case Environments.TEST:
-				envPath = path.resolve(rootdir, EnvironmentFile.TEST);
-				break;
-			case Environments.STAGING:
-				envPath = path.resolve(rootdir, EnvironmentFile.STAGING);
-				break;
 			case Environments.LOCAL:
 				envPath = path.resolve(rootdir, EnvironmentFile.LOCAL);
 				break;
@@ -63,32 +54,8 @@ class Environment implements IEnvironment {
 	 *
 	 * @returns
 	 */
-	public isProductionEnvironment(): boolean {
-		return this.getCurrentEnvironment() === Environments.PRODUCTION;
-	}
-
-	/**
-	 *
-	 * @returns
-	 */
 	public isDevEnvironment(): boolean {
 		return this.getCurrentEnvironment() === Environments.LOCAL;
-	}
-
-	/**
-	 *
-	 * @returns
-	 */
-	public isTestEnvironment(): boolean {
-		return this.getCurrentEnvironment() === Environments.TEST;
-	}
-
-	/**
-	 *
-	 * @returns
-	 */
-	public isStagingEnvironment(): boolean {
-		return this.getCurrentEnvironment() === Environments.STAGING;
 	}
 }
 

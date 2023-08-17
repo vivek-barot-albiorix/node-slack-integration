@@ -1,15 +1,9 @@
 enum Environments {
-	LOCAL = 'local',
-	PRODUCTION = 'production',
-	TEST = 'test',
-	STAGING = 'staging',
+	LOCAL = 'local'
 }
 
 enum EnvironmentFile {
-	LOCAL = '.env',
-	PRODUCTION = '.env.prod',
-	TEST = '.env.test',
-	STAGING = '.env.stag',
+	LOCAL = '.env'
 }
 
 export { Environments, EnvironmentFile };
