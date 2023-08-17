@@ -13,7 +13,6 @@ const app: App = new App();
 let server: http.Server;
 import logger from "./lib/logger";
 
-let previousRowCount: number;
 let previousRowContent = [];
 
 cron.schedule("0 */" + process.env.CRON_TIMER + " * * *", async () => {
@@ -23,15 +22,24 @@ cron.schedule("0 */" + process.env.CRON_TIMER + " * * *", async () => {
   readFile();
   const res = await slackIntegrationController._getCodaDocument();
   tableData = { res };
-  if (tableData.res.length > previousRowCount) {
+  const docIds = [];
+  tableData.res.forEach((element) => {
+    docIds.push(element.id);
+  });
+  if (previousRowContent.length !== docIds.length || !arraysEqual(previousRowContent, docIds)) {
+    previousRowContent = [];
     tableData.res.forEach((element) => {
-      previousRowContent.push(element.values);
+      previousRowContent.push(element.id);
     });
     writeFile(previousRowContent);
     await slackIntegrationController._sendSlackMessage();
-    previousRowContent = [];
+    
   }
 });
+
+function arraysEqual(array1, array2) {
+  return JSON.stringify(array1) === JSON.stringify(array2);
+}
 
 function writeFile(data) {
   const jsonData = JSON.stringify(data, null, 2);
@@ -50,7 +58,7 @@ function readFile() {
     } else {
       try {
         const jsonData = JSON.parse(data); // Parse the JSON data
-        previousRowCount = jsonData.length;
+        previousRowContent = jsonData;
       } catch (parseError) {
         console.error("Error parsing JSON:", parseError);
       }
