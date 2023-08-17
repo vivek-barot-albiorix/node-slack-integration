@@ -3,6 +3,7 @@ import { ReasonPhrases, StatusCodes } from "http-status-codes";
 import ApiError from "../../abstractions/ApiError";
 import BaseApi from "../BaseApi";
 import * as Slack from "@slack/bolt";
+import { Coda } from "coda-js";
 
 /**
  * Status controller
@@ -13,13 +14,14 @@ export default class SystemStatusController extends BaseApi {
    */
   public register(): Router {
     this.router.get("/send-message", this.sendMessage);
+    this.router.get("/get-coda-doc", this.getCodaDoc);
     this.router.get("/error", this.getError.bind(this));
     return this.router;
   }
 
   /*
-  * This method is used to send message to slack specific channel
-  */
+   * This method is used to send message to slack specific channel
+   */
   public async sendMessage(
     req: Request,
     res: Response,
@@ -78,10 +80,30 @@ export default class SystemStatusController extends BaseApi {
           },
         ],
       });
-      res.locals.data = "print vivek";
+      res.locals.data = "Success!";
       // call base class method
       super.send(res);
     } catch (err) {
+      next(err);
+    }
+  }
+
+  /*
+   * This method is used to get Coda doc
+   */
+  public async getCodaDoc(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const coda = new Coda(process.env.CODA_TOKEN);
+      const tableData = await coda.getTable('M-VBZEx9zP','vvk table');
+      res.locals.data = tableData;
+      // call base class method
+      super.send(res);
+    } catch (err) {
+      console.log(err);
       next(err);
     }
   }
