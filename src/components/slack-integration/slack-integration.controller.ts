@@ -2,6 +2,8 @@ import { NextFunction, Request, Response, Router } from "express";
 import BaseApi from "../BaseApi";
 import * as Slack from "@slack/bolt";
 import { Coda } from "coda-js";
+import * as coda from "@codahq/packs-sdk";
+export const pack = coda.newPack();
 
 /**
  * Status controller
@@ -54,7 +56,7 @@ export default class SlackIntegrationController extends BaseApi {
               type: "mrkdwn",
               text: `Hello, Your list has been updated.\n\n *Please Check*`,
             },
-          }
+          },
         ],
       });
     } catch (err) {
@@ -87,10 +89,21 @@ export default class SlackIntegrationController extends BaseApi {
     console.log("_getCodaDocument");
     console.log(process.env.CODA_TOKEN);
     try {
-      const coda = new Coda(process.env.CODA_TOKEN);
-      const tableData = await coda.getTable("M-VBZEx9zP", process.env.TABLE_NAME);
+      pack.setUserAuthentication({
+        type: coda.AuthenticationType.CodaApiHeaderBearerToken,
+
+        // Creates the token automatically when the Pack is installed.
+        shouldAutoAuthSetup: true,
+      });
+      // Allow the pack to make requests to Coda.
+      pack.addNetworkDomain("coda.io");
+      const codaDoc = new Coda(process.env.CODA_TOKEN);
+      const tableData = await codaDoc.getTable(
+        "M-VBZEx9zP",
+        process.env.TABLE_NAME
+      );
       const rows = await tableData.listRows({
-        useColumnNames: true
+        useColumnNames: true,
       });
       return rows;
     } catch (err) {
