@@ -99,6 +99,8 @@ export default class SlackIntegrationController extends BaseApi {
       const codaDoc = new Coda(process.env.CODA_TOKEN);
       console.log("codaDoc");
       console.log(codaDoc);
+      console.log("process.env.TABLE_NAME");
+      console.log(process.env.TABLE_NAME);
       const tableData = await codaDoc.getTable(
         "M-VBZEx9zP",
         process.env.TABLE_NAME
