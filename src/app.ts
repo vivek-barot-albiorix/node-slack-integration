@@ -59,8 +59,6 @@ export default class App {
     res: express.Response,
     next
   ): void {
-    // parse request header
-    // console.log(req.headers.access_token);
     next();
   }
 

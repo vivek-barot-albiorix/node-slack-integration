@@ -16,7 +16,6 @@ import logger from "./lib/logger";
 let previousRowContent = [];
 
 cron.schedule("*/10 * * * * *", async () => {
-  console.log("In scheduler");
   // cron.schedule("0 */" + process.env.CRON_TIMER + " * * *", async () => {
   let tableData;
   const slackIntegrationController: SlackIntegrationController =
