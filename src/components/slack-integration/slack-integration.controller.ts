@@ -86,6 +86,7 @@ export default class SlackIntegrationController extends BaseApi {
   }
 
   public async _getCodaDocument() {
+    console.log("_get Coda doc");
     try {
       pack.setUserAuthentication({
         type: coda.AuthenticationType.CodaApiHeaderBearerToken,
