@@ -96,6 +96,8 @@ export default class SlackIntegrationController extends BaseApi {
       // Allow the pack to make requests to Coda.
       pack.addNetworkDomain("coda.io");
       const codaDoc = new Coda(process.env.CODA_TOKEN);
+      console.log("codaDoc");
+      console.log(codaDoc);
       const tableData = await codaDoc.getTable(
         "M-VBZEx9zP",
         process.env.TABLE_NAME
