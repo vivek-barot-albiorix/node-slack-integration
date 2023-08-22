@@ -26,14 +26,16 @@ cron.schedule("0 */" + process.env.CRON_TIMER + " * * *", async () => {
   tableData.res.forEach((element) => {
     docIds.push(element.id);
   });
-  if (previousRowContent.length !== docIds.length || !arraysEqual(previousRowContent, docIds)) {
+  if (
+    previousRowContent.length !== docIds.length ||
+    !arraysEqual(previousRowContent, docIds)
+  ) {
     previousRowContent = [];
     tableData.res.forEach((element) => {
       previousRowContent.push(element.id);
     });
     writeFile(previousRowContent);
     await slackIntegrationController._sendSlackMessage();
-    
   }
 });
 
